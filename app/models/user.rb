@@ -68,9 +68,9 @@ class User < ApplicationRecord
   end
   
   # Defines a proto-feed.
-  # See "Following Users" for the full implementation.
+  # See "Following users" for the full implementation.
   def feed
-    microposts.where("user_id = ?", id)
+    Micropost.where("user_id = ?", id)
   end
   
   

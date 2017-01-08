@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class MicropostInterfaceTest < ActionDispatch::IntegrationTest
+class MicropostsInterfaceTest < ActionDispatch::IntegrationTest
 
   def setup
     @user = users(:michael)
@@ -29,23 +29,8 @@ class MicropostInterfaceTest < ActionDispatch::IntegrationTest
     assert_difference 'Micropost.count', -1 do
       delete micropost_path(first_micropost)
     end
-    # Visit a different user.
+    # Visit different user (no delete links)
     get user_path(users(:archer))
     assert_select 'a', { text: 'delete', count: 0 }
-  end
-  
-  Test "micropost sidebar count" do
-    log_in_as(@user)
-    get root_path
-    assert_match "#{FILL_IN} microposts", response.body
-    
-    # User with zero microposts
-    other_user = users(:malory)
-    log_in_as(other_user)
-    get root_path
-    assert_match "0 microposts", response.body
-    other_user.microposts.create!(content: "A micropost")
-    get root_path
-    assert_match FILL_IN, response.body
   end
 end
